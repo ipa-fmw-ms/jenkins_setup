@@ -26,7 +26,7 @@ if [ $? != 0 ]; then
 fi
 
 case $JOBTYPE in
-    regular_graphics_test|prio_graphics_test)
+    regular_graphics_test|prio_graphics_test|hardware_test)
         echo "Set up graphic"
 
         export DIR=$WORKSPACE/jenkins_setup/scripts/graphicTest/chroot
@@ -66,7 +66,7 @@ $WORKSPACE/jenkins_setup/scripts/${JOBTYPE}.py $PIPELINE_REPOS_OWNER $JENKINS_MA
 result=$?
 
 case $JOBTYPE in
-    regular_graphics_test|prio_graphics_test)
+    regular_graphics_test|prio_graphics_test|hardware_test)
         if [ ! -z "$DISPLAY" ] && [ "$DISPLAY" != ":0" ]; then
             $DIR/remoteX.py stop
         fi
