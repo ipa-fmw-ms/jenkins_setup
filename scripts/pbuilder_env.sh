@@ -8,6 +8,7 @@ echo "Set up environment variables"
 . $WORKSPACE/env_vars.sh
 echo "Job-Type: $JOBTYPE"
 
+export DEBIAN_FRONTEND=noninteractive
 export PATH=$PATH:/usr/local/bin
 . /opt/ros/$ROSDISTRO/setup.sh
 export ROS_PACKAGE_PATH=/tmp/test_repositories/src_repository:$ROS_PACKAGE_PATH
