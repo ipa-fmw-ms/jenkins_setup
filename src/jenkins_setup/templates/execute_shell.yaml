@@ -596,7 +596,7 @@ JOBNAME=$JOB_NAME
 
 ROSDISTRO=groovy # TODO: this is input from plugin
 
-REPOSITORY=cob_common # TODO: where do we get this from?
+REPOSITORY=cob_robots # TODO: where do we get this from?
 
 UBUNTUDISTRO=$ubuntu_distro
 

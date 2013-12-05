@@ -52,6 +52,14 @@ def main():
     print "Testing branch/version: %s" % pipe_repos[build_identifier].version
     print "\n", 50 * 'X'
 
+    #remove old and create new folder
+    while len(os.listdir(workspace)) >= 7:
+        list = os.listdir(workspace)
+        shutil.rmtree(workspace + "/" + sorted(list)[0]) #with common.call rm -rf later        
+    workspace = workspace + '/' + str(datetime.datetime.now())
+    print str(workspace)
+
+
     # set up directories variables
     tmpdir = os.path.join(workspace, 'test_repositories') #TODO check for old versions (delete oldest) and create new directory with timestamp
     common.call("rm -rf " + tmpdir)
