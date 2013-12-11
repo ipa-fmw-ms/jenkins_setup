@@ -584,11 +584,11 @@ ros_distro=$ROS_DISTRO
 fi
 
 
-#scp -r jenkins@jenkins-test-server:.ssh $WORKSPACE/
+#scp -r jenkins@pyramid-10:.ssh $WORKSPACE/
 
-#scp -r jenkins@jenkins-test-server:/home-local/jenkins/jenkins-config/jenkins_setup $WORKSPACE # TODO activate again after testing is finished
+scp -r jenkins@pyramid-10:/home-local/jenkins/jenkins-config/jenkins_setup $WORKSPACE # TODO activate again after testing is finished
 
-git clone https://github.com/ipa-fmw-ms/jenkins_setup.git
+#git clone https://github.com/ipa-fmw-ms/jenkins_setup.git
 
 
 
@@ -604,9 +604,9 @@ ARCH=$arch
 
 PIPELINE_REPOS_OWNER=ipa320
 
-JENKINS_MASTER=pyramid-08
+JENKINS_MASTER=pyramid-10
 
-JENKINS_USER=fmw-ms
+JENKINS_USER=admin
 
 JOBTYPE=hardware_build
 
