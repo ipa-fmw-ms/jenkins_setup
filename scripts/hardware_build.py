@@ -53,11 +53,11 @@ def main():
     print "\n", 50 * 'X'
 
     #remove old and create new folder
-    while len(os.listdir(workspace)) >= 7:
-        list = os.listdir(workspace)
-        shutil.rmtree(workspace + "/" + sorted(list)[0]) #with common.call rm -rf later        
-    workspace = workspace + '/' + str(datetime.datetime.now())
-    print str(workspace)
+    #while len(os.listdir(workspace)) >= 7:
+    #    list = os.listdir(workspace)
+    #    shutil.rmtree(workspace + "/" + sorted(list)[0]) #with common.call rm -rf later        
+    #workspace = workspace + '/' + str(datetime.datetime.now())
+    #print str(workspace)
 
 
     # set up directories variables
@@ -207,8 +207,10 @@ def main():
     rosdep_resolver = None
 
     print "Install build dependencies: %s" % (', '.join(repo_build_dependencies))
-    common.apt_get_install_also_nonrosdep(repo_build_dependencies, ros_distro, rosdep_resolver)
-
+    #common.apt_get_install_also_nonrosdep(repo_build_dependencies, ros_distro, rosdep_resolver)
+    print "ASK YOUR ADMIN TO INSTALL THE PACKAGES ABOVE"
+    # check which packages are installed
+    # FAIL WHEN SOMETHING MISSING
     #############
     ### build ###
     #############
