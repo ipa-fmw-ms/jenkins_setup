@@ -209,14 +209,11 @@ def main():
 
     print "Install build dependencies: %s" % (', '.join(repo_build_dependencies))
     #common.apt_get_install_also_nonrosdep(repo_build_dependencies, ros_distro, rosdep_resolver)
-<<<<<<< HEAD
     print "ASK YOUR ADMIN TO INSTALL:" + str(repo_build_dependencies)
     
-=======
     print "ASK YOUR ADMIN TO INSTALL THE PACKAGES ABOVE"
     # check which packages are installed
     # FAIL WHEN SOMETHING MISSING
->>>>>>> e2e3f6d2b4fdcbe14508b12e65e98d58ed1bb6d2
     #############
     ### build ###
     #############

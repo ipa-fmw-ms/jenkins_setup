@@ -1,13 +1,6 @@
 #####################
 ### hardware_test ###
 #####################
-<<<<<<< HEAD
-'hardware_test': '#!/bin/bash -e
-
-    #TODO
-
-'
-=======
 'hardware_test': '#!/bin/bash 
 
 date
@@ -69,5 +62,3 @@ python $WORKSPACE/jenkins_setup/scripts/hardware_test.py $PIPELINE_REPOS_OWNER $
 
 echo "finished building"
 '
-
->>>>>>> e2e3f6d2b4fdcbe14508b12e65e98d58ed1bb6d2
