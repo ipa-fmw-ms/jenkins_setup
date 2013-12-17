@@ -498,11 +498,12 @@ def get_buildpipeline_configs(server_name, user_name, config_repo=None):
             client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             client.connect(hostname=server_name, username="jenkins", key_filename=os.path.expanduser("~/.ssh/id_rsa"))
             sftp = client.open_sftp()
-            fileObject = sftp.file("jenkins-config/jenkins_config/" + server_name + "/" + user_name + "/pipeline_config.yaml", 'rb')
+	    path = "jenkins-config/jenkins_config/" + server_name + "/" + user_name + "/pipeline_config.yaml"
+            fileObject = sftp.file( path, 'rb')
             bpl_configs = yaml.load(fileObject.read())
         except Exception as ex:
             print "While downloading and parsing the buildpipeline configuration \
-                file from\n%s\nthe following error occured:\n%s" % (server_name, ex)
+                file from\n%s\nFilepath: %s\nthe following error occured:\n%s" % (server_name, path, ex)
             raise ex
 
     return bpl_configs

@@ -37,6 +37,7 @@ def main():
     ros_package_path = os.environ['ROS_PACKAGE_PATH']
 
     # cob_pipe object
+    print "LIST:" + str(cob_pipe.CobPipe()) +"REPOOWN:" + str(pipeline_repos_owner)+ "SERVER:" + str(server_name) + "USER:" + str(user_name)
     cp_instance = cob_pipe.CobPipe()
     cp_instance.load_config_from_url(pipeline_repos_owner, server_name, user_name)
     pipe_repos = cp_instance.repositories
@@ -53,11 +54,11 @@ def main():
     print "\n", 50 * 'X'
 
     #remove old and create new folder
-    while len(os.listdir(workspace)) >= 7:
-        list = os.listdir(workspace)
-        shutil.rmtree(workspace + "/" + sorted(list)[0]) #with common.call rm -rf later        
-    workspace = workspace + '/' + str(datetime.datetime.now())
-    print str(workspace)
+    #while len(os.listdir(workspace)) >= 7:
+    #    list = os.listdir(workspace)
+    #    shutil.rmtree(workspace + "/" + sorted(list)[0]) #with common.call rm -rf later        
+    #workspace = workspace + '/' + str(datetime.datetime.now())
+    #print str(workspace)
 
 
     # set up directories variables
@@ -67,7 +68,7 @@ def main():
     repo_sourcespace_wet = os.path.join(tmpdir, 'src_repository', 'wet', 'src')    # wet (catkin) repositories
     repo_sourcespace_dry = os.path.join(tmpdir, 'src_repository', 'dry')           # dry (rosbuild) repositories
     repo_static_analysis_results = os.path.join(tmpdir, 'src_repository', 'static_analysis_results') # location for static code test results
-    #repo_buildspace = os.path.join(tmpdir, 'build_repository')                     # location for build output
+    repo_buildspace = os.path.join(tmpdir, 'build_repository')                     # location for build output
     dry_build_logs = os.path.join(repo_sourcespace_dry, 'build_logs')              # location for build logs
 
     ################
@@ -207,8 +208,9 @@ def main():
     rosdep_resolver = None
 
     print "Install build dependencies: %s" % (', '.join(repo_build_dependencies))
-    common.apt_get_install_also_nonrosdep(repo_build_dependencies, ros_distro, rosdep_resolver)
-
+    #common.apt_get_install_also_nonrosdep(repo_build_dependencies, ros_distro, rosdep_resolver)
+    print "ASK YOUR ADMIN TO INSTALL:" + str(repo_build_dependencies)
+    
     #############
     ### build ###
     #############
