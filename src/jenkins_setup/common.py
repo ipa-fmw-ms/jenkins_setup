@@ -111,7 +111,7 @@ def apt_get_check_also_nonrosdep(pkgs, ros_distro, rosdep=None, sudo=False):
             print r
             return r
         except:
-            raise BuildException("Failed to apt-get install rosdep packages")
+            raise BuildException("Failed to apt-check install rosdep packages")
 
     if aptget_pkgs != []:
         try:
@@ -119,7 +119,7 @@ def apt_get_check_also_nonrosdep(pkgs, ros_distro, rosdep=None, sudo=False):
             print a
             return a
         except:
-            raise BuildException("Failed to apt-get install ros repositories")
+            raise BuildException("Failed to apt-check install ros repositories")
 
 
     

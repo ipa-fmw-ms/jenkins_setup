@@ -52,12 +52,12 @@ def main():
     print "Testing branch/version: %s" % pipe_repos[build_identifier].version
     print "\n", 50 * 'X'
 
-    #remove old and create new folder
-    #while len(os.listdir(workspace)) >= 7:
-    #    list = os.listdir(workspace)
-    #    shutil.rmtree(workspace + "/" + sorted(list)[0]) #with common.call rm -rf later        
-    #workspace = workspace + '/' + str(datetime.datetime.now())
-    #print str(workspace)
+    remove old and create new folder
+    while len(os.listdir(workspace)) >= 7:
+        list = os.listdir(workspace)
+        shutil.rmtree(workspace + "/" + sorted(list)[0]) #with common.call rm -rf later
+    workspace = workspace + '/' + datetime.date.strftime(datetime.datetime.now(), '%w-%m-%Y_%X')
+    print 'Workspace: %s',(str(workspace))
 
 
     # set up directories variables
