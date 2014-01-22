@@ -35,7 +35,7 @@ def apt_get_update(sudo=False):
     else:
         call("sudo apt-get update")
 
-def apt_get_check(pkgs, rosdep=None, sudo=False):
+def apt_get_check(pkgs, rosdep=None):
     """
     Install the corresponding apt packages from a list of ROS repositories.
 
@@ -43,8 +43,6 @@ def apt_get_check(pkgs, rosdep=None, sudo=False):
     @type  pkgs: list
     @param rosdep: rosdep resolver object (default None)
     @type  rosdep: rosdep.RosDepResolver
-    @param sudo: execute command as super-user (default False)
-    @type  sudo: bool
     """
     import apt
     
@@ -65,7 +63,7 @@ def apt_get_check(pkgs, rosdep=None, sudo=False):
     return not_installed
 
 
-def apt_get_check_also_nonrosdep(pkgs, ros_distro, rosdep=None, sudo=False):
+def apt_get_check_also_nonrosdep(pkgs, ros_distro, rosdep=None):
     """
     Extend common.apt_get_install by trying to guess Debian package names
     of packages not included in rosdep
@@ -76,8 +74,6 @@ def apt_get_check_also_nonrosdep(pkgs, ros_distro, rosdep=None, sudo=False):
     @type  ros_distro: str
     @param rosdep: rosdep resolver object (default None)
     @type  rosdep: rosdep.RosDepResolver
-    @param sudo: execute command as super-user (default False)
-    @type  sudo: bool
     """
     rosdep_pkgs = []
     aptget_pkgs = []
@@ -102,26 +98,33 @@ def apt_get_check_also_nonrosdep(pkgs, ros_distro, rosdep=None, sudo=False):
     print "unavailable dependencies: ", unavailable_pkgs
     print ""
 
+    missing_apt_packages = []
+
     if unavailable_pkgs != []:
         raise BuildException("Some dependencies are not available: %s" % (', '.join(unavailable_pkgs)))
 
     if rosdep_pkgs != []:
         try:
-            r = apt_get_check(rosdep_pkgs, rosdep, sudo)
-            print r
-            return r
+            missing_apt_packages += apt_get_check(rosdep_pkgs, rosdep)
         except:
+<<<<<<< HEAD
             raise BuildException("Failed to apt-check install rosdep packages")
+=======
+            raise BuildException("Failed to apt-get check rosdep packages")
+>>>>>>> 952fabe466891dcfaa175e1fa5de7d9b143d7abc
 
     if aptget_pkgs != []:
         try:
-            a = apt_get_check(aptget_pkgs, sudo=sudo)
-            print a
-            return a
+            missing_apt_packages += apt_get_check(aptget_pkgs)
         except:
+<<<<<<< HEAD
             raise BuildException("Failed to apt-check install ros repositories")
 
+=======
+            raise BuildException("Failed to apt-get check ros repositories")
+>>>>>>> 952fabe466891dcfaa175e1fa5de7d9b143d7abc
 
+    return missing_apt_packages
     
 
 

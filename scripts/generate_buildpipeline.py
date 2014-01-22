@@ -99,7 +99,7 @@ def main():
     job_type_dict = plc_instance.get_jobs_to_create()
 
     ### create pipeline jobs
-    ### pipe starter
+    ### scm pipe starter
     # for each repository and each polled user-defined dependency a pipe
     # starter job will be generated
     polls_dict = plc_instance.get_custom_dependencies(polled_only=True)
@@ -107,13 +107,13 @@ def main():
     for poll, starts_repo_list in polls_dict.iteritems():
         if poll in pipe_repo_list:
             pipe_repo_list.remove(poll)
-        job_creator_instance = jenkins_job_creator.PipeStarterJob(jenkins_instance, plc_instance, starts_repo_list, poll)
+        job_creator_instance = jenkins_job_creator.PipeStarterSCMJob(jenkins_instance, plc_instance, starts_repo_list, poll)
         if options.delete:
             modified_jobs.append(job_creator_instance.delete_job())
         else:
             modified_jobs.append(job_creator_instance.create_job())
     for repo in pipe_repo_list:
-        job_creator_instance = jenkins_job_creator.PipeStarterJob(jenkins_instance, plc_instance, [repo], repo)
+        job_creator_instance = jenkins_job_creator.PipeStarterSCMJob(jenkins_instance, plc_instance, [repo], repo)
         if options.delete:
             modified_jobs.append(job_creator_instance.delete_job())
         else:
@@ -130,16 +130,16 @@ def main():
         manual_pipe_starter_name = job_creator_instance.create_job()
         modified_jobs.append(manual_pipe_starter_name)
 
-    ### general pipe starter
+    ### manual all pipe starter
     # this pipe starter job won't poll any repository; it has to be started
     # manually. It triggers the priority build job with all defined
     # repositories as parameters
-    job_creator_instance = jenkins_job_creator.PipeStarterGeneralJob(jenkins_instance, plc_instance, plc_instance.repositories.keys())
+    job_creator_instance = jenkins_job_creator.PipeStarterManualAllJob(jenkins_instance, plc_instance, plc_instance.repositories.keys())
     if options.delete:
         modified_jobs.append(job_creator_instance.delete_job())
     else:
-        general_pipe_starter_name = job_creator_instance.create_job()
-        modified_jobs.append(general_pipe_starter_name)
+        manual_all_pipe_starter_name = job_creator_instance.create_job()
+        modified_jobs.append(manual_all_pipe_starter_name)
 
     ### priority build
     job_creator_instance = jenkins_job_creator.PriorityBuildJob(jenkins_instance, plc_instance, tarball_location, plc_instance.repositories.keys())
@@ -150,19 +150,11 @@ def main():
 
     ### regular build
     if 'regular_build' in job_type_dict:
-        job_creator_instance = jenkins_job_creator.RegularBuildJob(jenkins_instance, plc_instance, tarball_location)
+        job_creator_instance = jenkins_job_creator.RegularBuildJob(jenkins_instance, plc_instance, tarball_location, job_type_dict['regular_build'])
         if options.delete:
             modified_jobs.append(job_creator_instance.delete_job())
         else:
             modified_jobs.append(job_creator_instance.create_job())
-
-    ### downstream build
-    #if 'downstream_build' in job_type_dict:
-    #    job_creator_instance = jenkins_job_creator.DownstreamBuildJob(jenkins_instance, plc_instance, tarball_location, job_type_dict['downstream_build'])
-    #    if options.delete:
-    #        modified_jobs.append(job_creator_instance.delete_job())
-    #    else:
-    #        modified_jobs.append(job_creator_instance.create_job())
 
     ### priority nongraphics test
     if 'nongraphics_test' in job_type_dict:
@@ -198,25 +190,25 @@ def main():
 
     ### hardware build and test
     if 'hardware_build' in job_type_dict:
-        job_creator_instance = jenkins_job_creator.HardwareBuildTrigger(jenkins_instance, plc_instance)
+        job_creator_instance = jenkins_job_creator.HardwareBuildTrigger(jenkins_instance, plc_instance, job_type_dict['hardware_build'])
         if options.delete:
             modified_jobs.append(job_creator_instance.delete_job())
         else:
             modified_jobs.append(job_creator_instance.create_job())
 
-        job_creator_instance = jenkins_job_creator.HardwareBuildJob(jenkins_instance, plc_instance)
+        job_creator_instance = jenkins_job_creator.HardwareBuildJob(jenkins_instance, plc_instance, job_type_dict['hardware_build'])
         if options.delete:
             modified_jobs.append(job_creator_instance.delete_job())
         else:
             modified_jobs.append(job_creator_instance.create_job())
 
-        job_creator_instance = jenkins_job_creator.HardwareTestTrigger(jenkins_instance, plc_instance)
+        job_creator_instance = jenkins_job_creator.HardwareTestTrigger(jenkins_instance, plc_instance, job_type_dict['hardware_build'])
         if options.delete:
             modified_jobs.append(job_creator_instance.delete_job())
         else:
             modified_jobs.append(job_creator_instance.create_job())
 
-        job_creator_instance = jenkins_job_creator.HardwareTestJob(jenkins_instance, plc_instance)
+        job_creator_instance = jenkins_job_creator.HardwareTestJob(jenkins_instance, plc_instance, job_type_dict['hardware_build'])
         if options.delete:
             modified_jobs.append(job_creator_instance.delete_job())
         else:
@@ -224,7 +216,7 @@ def main():
 
     ### release job
     # TODO fix if statement
-    #if ('release' and 'downstream_build' and 'nongraphics_test' and 'graphics_test'
+    #if ('release' and 'nongraphics_test' and 'graphics_test'
     #        and 'hardware_build' and 'interactive_hw_test' in job_type_dict):
     #    print "Create release job"
         # TODO
@@ -241,9 +233,9 @@ def main():
     if delete_msg != "":
         print "Delete old and no more required jobs:\n" + delete_msg
 
-    # start buildpipeline by general starter job
+    # start buildpipeline by manual all starter job
     #if options.run:
-    #    jenkins_instance.build_job(general_pipe_starter_name)
+    #    jenkins_instance.build_job(manual_all_pipe_starter_name)
 
 if __name__ == "__main__":
     main()
