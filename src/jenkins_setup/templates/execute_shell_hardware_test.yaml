@@ -1,9 +1,7 @@
 #####################
 ### hardware_test ###
 #####################
-'hardware_test': '#!/bin/bash 
-
-date
+'hardware_test': '#!/bin/bash -e
 
 if [ -z "$ROS_DISTRO" ]; then
 
